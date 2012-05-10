@@ -1,0 +1,6 @@
+exports.conf = {
+		env		 : '{{jv.config.env}}',
+		fb_appid : '{{jv.config.fb.appid}}',
+		fb_secret : '{{jv.config.fb.secret}}',
+		mongo_connect : '{{jv.config.mongo.connect}}'
+};
