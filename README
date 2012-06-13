@@ -1,0 +1,6 @@
+goto web directory
+
+issue:
+closure/closure/bin/build/depswriter.py --root_with_prefix="strikeout ../../../strikeout/"  --output_file=deps.js
+this build deps.js which is used by closure library to add required libs
+

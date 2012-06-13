@@ -1,5 +1,5 @@
 //set main namespace
-goog.provide('strikeout');
+goog.provide('strikeout.start');
 
 //get requirements
 goog.require('lime.Director');
