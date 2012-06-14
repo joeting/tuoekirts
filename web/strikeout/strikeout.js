@@ -1,5 +1,5 @@
 //set main namespace
-goog.provide('strikeout.start');
+goog.provide('strikeout');
 
 //get requirements
 goog.require('lime.Director');
@@ -13,7 +13,7 @@ goog.require('lime.animation.Spawn');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
-
+goog.require('strikeout.Button');
 goog.require('strikeout.Gem');
 
 
@@ -22,24 +22,31 @@ var _layer;
 var _gems;
 var _turnNumber = 0;
 var _selected = new Array();
+var _playerLbl;
+var _playerNumber = 1;
+var _button;
+var _scene;
 
 // entrypoint
 strikeout.start = function(lines, playerId, gameId){
 
 	var director = new lime.Director(document.body,1024,768);
-	var scene = new lime.Scene();
+	_scene = new lime.Scene();
 	_gems = new Array(lines);
-	var menuLayer = new lime.Layer();
-    var button = new lime.Label().setText('GO').setFontColor('#000').setFontSize(48).setPosition(50, 700);
-    goog.events.listen(button, ['mousedown', 'touchstart'], goHandler_);
-    menuLayer.appendChild(button);
+	 // label for score message
+    _playerLbl = new lime.Label().setFontFamily('Trebuchet MS').setFontColor('#fffff').setFontSize(48).
+        setPosition(375, 600).setText('Player: ' + _playerNumber);
+    
+    _button = new makeButton('STRIKEOUT').setPosition(375, 700);
+    goog.events.listen(_button, ['mousedown', 'touchstart'], goHandler_);
     drawBoard();
-    scene.appendChild(_layer);
-	scene.appendChild(menuLayer);
+    _scene.appendChild(_playerLbl);
+    _scene.appendChild(_layer);
+	_scene.appendChild(_button);
     director.makeMobileWebAppCapable();
 
 // set current scene active
-    director.replaceScene(scene);
+    director.replaceScene(_scene);
 };
 
 drawBoard = function() {
@@ -56,7 +63,7 @@ drawBoard = function() {
     	}
     	for (var c = 0; c <= r; c++) {
         	var o = (SIZE/2)-(60*r)+(120*c);
-        	var b = new lime.Sprite().setFill('assets/shadow.png').setAnchorPoint(0, 0).setSize(90, 90).setPosition(o, r * 90 );
+        	var b = new lime.Sprite().setFill('strikeout/assets/shadow.png').setAnchorPoint(0, 0).setSize(90, 90).setPosition(o, r * 90 );
         	b.qualityRenderer = true;
         	back.appendChild(b);
         	var gem = strikeout.Gem.random();
@@ -81,10 +88,13 @@ getIndexByElement = function (array , element) {
 
 goHandler_ = function(e) {
 	var turn = {};
+	var gemCount = 0;
 	turn.removeList = [];
+	
 	
 	for (var r = 0; r<_gems.length; r++) {
 		for (var c = 0; c<=r; c++ ) {
+			gemCount++;
 			if (_gems[r][c].selected_) {
 				_gems[r][c].deleted_ = true;
 				var fade = new lime.animation.FadeTo(0).setDuration(1);
@@ -93,13 +103,27 @@ goHandler_ = function(e) {
 				remove.push(r);
 				remove.push(c);
 				turn.removeList.push(remove);
+				gemCount--;
 			}
 		}
 	}
 	_selected = new Array();
-	turn.number = turnNumber++;
+	turn.number = _turnNumber++;
+	if (gemCount == 1) {
+		_scene.removeChild(_button);
+		_playerLbl.setText('Player: ' +  _playerNumber + " Victory!!!");
+		
+	} else {
+		_playerNumber = _turnNumber%2 + 1;
+		_playerLbl.setText('Player: ' +  _playerNumber );
+	}
 	
 }
+
+makeButton = function(text) {
+    var btn = new strikeout.Button(text).setSize(300, 90);
+    return btn;
+};
 
 moveHandler_ = function(e){
 	var gem = e.target;
@@ -165,4 +189,4 @@ unPressHandler_ = function(e){
 
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode
-goog.exportSymbol('strikeout.start', strikeout.start);
+goog.exportSymbol('strikeout', strikeout);
