@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+	<title>strikeout</title>
+	<script type="text/javascript" src="../closure/closure/goog/base.js"></script>
+	<!-- <script type="text/javascript" src="../config/config.js"></script> -->
+	<script type="text/javascript" src="js/fbConnect.js"></script>
+	<style>
+	body {
+		background	: #1c6aa1;
+		background	: -webkit-gradient(radial, 50% 50%, 10, 50% 50%, 850, from(#1eb1d8), to(#1b345e), color-stop(.4,#1c6aa1));
+		background	: -moz-radial-gradient(center 45deg, circle farthest-side, #1eb1d8 0%, #1c6aa1 40%, #1b345e 100%);
+	}
+
+	.st-fbButton{
+		background-color: #5F78AB;
+		border-bottom: 1px solid #1A356E;
+		border-radius: 1px 1px 1px 1px;
+		border-top: 1px solid #879AC0;
+		color: white;
+		display: inline-block;
+		font-family: Arial;
+		font-size: 11px;
+		font-weight: bold;
+		margin: 0 auto;
+		overflow: hidden;
+		padding: 3px 7px;
+		cursor: pointer;
+		display: block;
+		width: 110px;
+	}
+
+	.st-loginBox {
+		background-color: white;
+		height			: 100%;
+		opacity			: 0.7;
+		position		: absolute;
+		top				: 0;
+		width			: 100%;
+		display			: none;
+	}
+
+	.st-fbConnect {
+		background-color: gray;
+		box-shadow		: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+		border			: 4px solid;
+		border-radius	: 4px;
+		left			: 300px;
+		opacity			: 1;
+		padding			: 8px 8px 0;
+		position		: absolute;
+		top				: 100px;
+	}
+
+	.st-fbConnect .header .label{
+		margin	: 0 auto;
+		width	: 190px;
+	}
+
+	.st-fbConnect .button{
+		background		: -moz-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);
+		box-shadow		: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+		border-radius	: 5px;
+		border			: 1px solid;
+		margin			: 10px auto;
+		text-align		: center;
+		width			: 50px;
+		cursor			: pointer;
+	}
+
+	.st-fbConnect .button:active{
+		box-shadow	: 0 0 0px 0 rgba(0, 0, 0, 0.5);
+	}
+
+	.st-fbConnect .button:hover{
+		background	: -moz-linear-gradient(top, #a1dbff 0%, #cbebff 53%, #f0f9ff 100%);
+	}
+	</style>
+</head>
+
+<body>
+	<div id="fb-root"></div>
+	<div class="st-fbButton">Login with Facebook</div>
+	<div class="st-loginBox">
+		<div class="st-fbConnect">
+			<div class="header">
+				<div class="label">Please Connect with Fabeook</div>
+			</div>
+			<div class="button">Close</div>
+		</div>
+	</div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
+	<script>
+		$.when(
+			fbConnect.Ctrl.init(),
+			fbConnect.Ctrl.load()
+		).done(function(res){
+			if(res.authResponse){
+				window.open('strikeout.html?token='+res.authResponse.accessToken,'_self');
+			}
+			else{
+				$('.st-loginBox').fadeIn();
+			}
+		});
+	</script>
+</body>
+
+</html>
