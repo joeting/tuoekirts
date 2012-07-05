@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Player</title>
+		<script type="text/javascript" src="strikeout/fbConnect.js"></script>
+		<script type="text/javascript" src="strikeout/fbAPI.js"></script>
+		<script type="text/javascript" src="strikeout/player.js"></script>
+		<script src="http://code.jquery.com/jquery-1.7.2.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+
+		<style>
+		body {
+			background	: -moz-radial-gradient(center center 45deg, circle farthest-side, #1EB1D8 0%, #1C6AA1 40%, #1B345E 100%) repeat scroll 0 0 transparent;
+			border		: 1px solid black;
+			display		: block;
+			height		: 1280px;
+			margin		: 0 auto;
+			width		: 720px;
+		}
+
+		.floatLeft{
+			float	: left;
+		}
+
+		.floatRight{
+			float	: right;
+		}
+
+		.border_dist{
+			margin	: 0 10px;
+		}
+
+		.player_options{
+			margin: 0 10px;
+		}
+
+		.player{
+			margin	: 0 10px;
+		}
+
+		.friendsList_page{
+			margin-left	: 720px;
+			height		: 1200px;
+			overflow-y	: auto;
+		}
+
+		.friendsList_page .back_player{
+			border			: 1px solid;
+			border-radius	: 5px 5px 5px 5px;
+			box-shadow		: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+			margin-left		: 100px;
+			margin-top		: -50px;
+			padding			: 5px 5px 2px;
+			position		: absolute;
+			cursor			: pointer;
+			background		: -moz-linear-gradient(top, #ebe9f9 0%, #d8d0ef 50%, #cec7ec 51%, #c1bfea 100%);
+		}
+
+		.friendsList_page .back_player:active{
+			box-shadow		: 0 0 0px 0px rgba(0, 0, 0, 0.5);
+		}
+
+		.friendsList_page ul{
+			list-style: none outside none;
+			margin-left: -40px;
+		}
+
+		.friendsList_page ul li{
+			background: -moz-linear-gradient(center top , #F6F8F9 0%, #E5EBEE 50%, #D7DEE3 51%, #F5F7F9 100%) repeat scroll 0 0 transparent;
+			border: 1px solid;
+			border-radius: 5px 5px 5px 5px;
+			margin-bottom: 5px;
+			padding: 5px 5px 0;
+		}
+
+		.friendsList_page ul li div{
+			display: inline-block;
+			margin: 20px 0 0 5px;
+			vertical-align: top;
+		}
+
+		.connect_friends{
+			background		: -moz-linear-gradient(center top , #FEFCEA 0%, #F1DA36 100%) repeat scroll 0 0 transparent;
+			border-radius	: 3px 3px 3px 3px;
+			display			: inline-block;
+			padding			: 5px;
+			cursor			: pointer;
+			box-shadow		: 0 0 10px 0 #000000;
+			margin-top		: 20px;
+		}
+
+		.connect_friends:active{
+			background	: -moz-linear-gradient(top, #fefcea 0%, #c2d300 100%);
+			box-shadow	: 0 0 0px 0 #000000;
+		}
+
+		.game{
+			margin-top	: 20px;
+		}
+
+		.game a{
+			cursor			: pointer;
+			background		: -moz-linear-gradient(45deg, #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+			border-radius	: 3px 3px 3px 3px;
+			padding			: 5px;
+			text-decoration	: none;
+			color			: red;
+			font-weight		: bold;
+			box-shadow		: 0 0 0 4px rgba(0, 0, 0, 0.5);
+		}
+
+		.game a:active{
+			background	: -moz-linear-gradient(-45deg, #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+			box-shadow	: 0 0 4px 0 #000000;
+		}
+
+		.stats{
+			cursor			: pointer;
+			background		: -moz-linear-gradient(45deg, #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+			border-radius	: 3px 3px 3px 3px;
+			padding			: 5px;
+			text-decoration	: none;
+			color			: red;
+			font-weight		: bold;
+			box-shadow		: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+			margin-top		: 20px;
+			display			: inline-block;
+		}
+
+		</style>
+
+	</head>
+
+	<body>
+		<div style="overflow:hidden">
+			<div id="fb-root"></div>
+			<div class ="player border_dist"></div>
+			<div class ="player_options">
+				<div class ="connect_friends border_dist">
+					Challenge a Friend
+				</div>
+				<div class="game border_dist">
+					<a href="strikeout.html">Play</a>
+				</div>
+				<div class ="stats border_dist">
+					Stats
+				</div>
+			</div>
+			<div class ="friendsList_page border_dist"></div>
+		</div>
+		<script>
+			$.when(
+				fbConnect.Ctrl.init(),
+				player.Ctrl.init(),
+				player.Ctrl.load()
+			).done(function(res){
+				if(res.authResponse){
+					player.View.displayData();
+				}
+			});
+		</script>
+	</body>
+
+	<script class="player" type="text/x-jquery-tmpl">
+		<div class="name">
+			${name}
+		</div>
+		<div class = "userImg">
+			<img src="${pic}" />
+		</div>
+	</script>
+
+	<script class="friendsList_page" type="text/x-jquery-tmpl">
+	<div class="back_player">Back</div>
+	<ul>
+	{{each data}}
+		<li>
+			<img src="${picture}" />
+			<div>${name}</div>
+		</li>
+	{{/each}}
+	</ul>
+	</script>
+</html>
