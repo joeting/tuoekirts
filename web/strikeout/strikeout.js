@@ -15,6 +15,7 @@ goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
 goog.require('strikeout.Button');
 goog.require('strikeout.Gem');
+goog.require('strikeout.DrawPath');
 
 
 
@@ -31,6 +32,8 @@ var _scene;
 strikeout.start = function(lines, playerId, gameId){
 
 	var director = new lime.Director(document.body,1024,768);
+    strikeout.director = director;
+
 	_scene = new lime.Scene();
 	_gems = new Array(lines);
 	 // label for score message
@@ -46,7 +49,7 @@ strikeout.start = function(lines, playerId, gameId){
     director.makeMobileWebAppCapable();
 
 // set current scene active
-    director.replaceScene(_scene);
+    director.replaceScene(_scene);    
 };
 
 drawBoard = function() {
@@ -57,6 +60,7 @@ drawBoard = function() {
 	_layer = new lime.Layer();
     var back = new lime.RoundedRect().setSize(690, 690).setAnchorPoint(0, 0).setPosition(0,0).setRadius(30);
     var lines = _gems.length;
+    var allGems = [];
     for (var r = 0; r < lines; r++) {
     	if (!_gems[r]){
     		_gems[r] = [];
@@ -72,11 +76,59 @@ drawBoard = function() {
             gem.setPosition(o + 45, (r * 90) + 45);
             gem.setSize(90, 90);
             _gems[r].push(gem);
-            goog.events.listen(gem, ['mousedown', 'touchstart'], pressHandler_);
+//            goog.events.listen(gem, ['mousedown', 'touchstart'], pressHandler_);
             _layer.appendChild(gem);
+            allGems.push(gem);
         }
     }
     _layer.appendChild(back);
+
+    // Draw path, pass in a selectHandler which get's call once the line is drawn.
+    this.drawpath = new strikeout.DrawPath(back, strikeout.director.getSize().clone(), function(touch, e) {
+
+    	var distanceSeg = 25;
+
+    	// Reset the previously selected gems.
+    	for (var j = 0; j < allGems.length; j++) {
+    		
+    		if (allGems[j].deleted_) {
+    			continue;
+    		}
+    		
+    		if (allGems[j].selected_) {
+    			allGems[j].deselect();
+    		}
+    	}
+    	_selected = new Array();
+    	
+    	// get the line.
+    	var line = new goog.math.Line(touch.screenPos.x, touch.screenPos.y, e.screenPosition.x, e.screenPosition.y);
+    	 
+    	// Back fill points along the line.
+    	var distance = line.getSegmentLength();
+    	var numOfSeg = distance / distanceSeg;
+    	numOfSeg = (numOfSeg < 1)? 1 : numOfSeg;
+    	
+    	for (var i = 0; i <= numOfSeg; i++) {
+    		
+    		var t = i / numOfSeg;
+    		var cord = line.getInterpolatedPoint(t);
+    		
+    		// Loop through all gems and see if the cord is on the line.
+    		for (var j = 0; j < allGems.length; j++) {
+    			
+    			if (allGems[j].deleted_ || allGems[j].selected_) {
+    				continue;
+    			}
+    			
+    			if (allGems[j].hitTest({screenPosition: cord})) {
+    				pressHandler_({target: allGems[j]});
+    			}
+    		}
+    		
+    	}
+    	
+    });
 }
 
 getIndexByElement = function (array , element) {

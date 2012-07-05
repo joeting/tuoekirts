@@ -241,4 +241,5 @@ goog.addDependency('../../../strikeout/lib/lime/src/ui/container.js', ['lime.ui.
 goog.addDependency('../../../strikeout/lib/lime/src/ui/scroller.js', ['lime.ui.Scroller'], ['lime.Sprite', 'lime.animation.MoveTo']);
 goog.addDependency('../../../strikeout/lib/lime/src/useragent.js', ['lime.userAgent'], ['goog.userAgent']);
 goog.addDependency('../../../strikeout/lib/lime/templates/default/__name__.js', ['{name}'], ['lime.Circle', 'lime.Director', 'lime.Label', 'lime.Layer', 'lime.Scene', 'lime.animation.FadeTo', 'lime.animation.MoveTo', 'lime.animation.ScaleTo', 'lime.animation.Spawn']);
+goog.addDependency('../../../strikeout/drawpath.js', ['strikeout.DrawPath'], ['goog.events', 'goog.math.Size', 'goog.math.Line', 'lime.CanvasContext', 'lime.Sprite', 'lime.animation.FadeTo', 'lime.animation.MoveTo', 'lime.animation.ScaleTo', 'lime.animation.Spawn']);
 goog.addDependency('../../../strikeout/strikeout.js', ['strikeout'], ['lime.Button', 'lime.Circle', 'lime.Director', 'lime.Label', 'lime.Layer', 'lime.RoundedRect', 'lime.Scene', 'lime.animation.FadeTo', 'lime.animation.MoveTo', 'lime.animation.ScaleTo', 'lime.animation.Spawn', 'strikeout.Gem']);
