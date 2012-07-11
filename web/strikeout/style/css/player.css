@@ -1,0 +1,144 @@
+/* line 38, ../sass/_base.scss */
+.floatLeft {
+  float: left;
+}
+
+/* line 42, ../sass/_base.scss */
+.floatRight {
+  float: right;
+}
+
+/* line 47, ../sass/_base.scss */
+body {
+  background: -moz-radial-gradient(center center 45deg, circle farthest-side, #1eb1d8 0%, #1c6aa1 40%, #1b345e 100%) repeat scroll 0 0 transparent;
+  border: 1px solid black;
+  display: block;
+  height: 1280px;
+  margin: 0 auto;
+  width: 720px;
+}
+
+/* line 3, ../sass/player.scss */
+.border_dist {
+  margin: 0 10px;
+}
+
+/* line 7, ../sass/player.scss */
+.player_options {
+  margin: 0 10px;
+}
+
+/* line 11, ../sass/player.scss */
+.player {
+  margin: 0 10px;
+}
+
+/* line 15, ../sass/player.scss */
+.friendsList_page {
+  margin-left: 720px;
+  height: 1200px;
+  overflow-y: auto;
+}
+/* line 20, ../sass/player.scss */
+.friendsList_page .back_player {
+  border: 1px solid;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+  margin-left: 100px;
+  margin-top: -50px;
+  padding: 5px 5px 2px;
+  position: absolute;
+  cursor: pointer;
+  background: -moz-linear-gradient(top, #ebe9f9 0%, #d8d0ef 50%, #cec7ec 51%, #c1bfea 100%);
+}
+/* line 31, ../sass/player.scss */
+.friendsList_page .back_player:active {
+  box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* line 37, ../sass/player.scss */
+.friendsList_page ul {
+  list-style: none outside none;
+  margin-left: -40px;
+}
+/* line 41, ../sass/player.scss */
+.friendsList_page ul li {
+  background: -moz-linear-gradient(center top, #f6f8f9 0%, #e5ebee 50%, #d7dee3 51%, #f5f7f9 100%) repeat scroll 0 0 transparent;
+  border: 1px solid;
+  border-radius: 5px 5px 5px 5px;
+  margin-bottom: 5px;
+  padding: 5px 5px 0;
+}
+/* line 48, ../sass/player.scss */
+.friendsList_page ul li:hover {
+  cursor: pointer;
+}
+/* line 52, ../sass/player.scss */
+.friendsList_page ul li:active {
+  background: -moz-linear-gradient(top, #ededed 0%, #f6f6f6 53%, white 100%);
+}
+/* line 55, ../sass/player.scss */
+.friendsList_page ul li div {
+  display: inline-block;
+  margin: 20px 0 0 5px;
+  vertical-align: top;
+}
+/* line 61, ../sass/player.scss */
+.friendsList_page ul li span {
+  display: inline-block;
+  float: right;
+  margin: 20px 0 0 30px;
+  vertical-align: top;
+  font-family: Rockwell,"Courier Bold",Courier,Georgia,Times,"Times New Roman",serif;
+}
+
+/* line 71, ../sass/player.scss */
+.connect_friends {
+  background: -moz-linear-gradient(center top, #fefcea 0%, #f1da36 100%) repeat scroll 0 0 transparent;
+  border-radius: 3px 3px 3px 3px;
+  display: inline-block;
+  padding: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 #000000;
+  margin-top: 20px;
+}
+/* line 80, ../sass/player.scss */
+.connect_friends:active {
+  background: -moz-linear-gradient(top, #fefcea 0%, #c2d300 100%);
+  box-shadow: 0 0 0px 0 #000000;
+}
+
+/* line 86, ../sass/player.scss */
+.game {
+  margin-top: 20px;
+}
+/* line 89, ../sass/player.scss */
+.game a {
+  cursor: pointer;
+  background: -moz-linear-gradient(45deg, #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+  border-radius: 3px 3px 3px 3px;
+  padding: 5px;
+  text-decoration: none;
+  color: red;
+  font-weight: bold;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.5);
+}
+/* line 99, ../sass/player.scss */
+.game a:active {
+  background: -moz-linear-gradient(-45deg, #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+  box-shadow: 0 0 4px 0 #000000;
+}
+
+/* line 106, ../sass/player.scss */
+.stats {
+  cursor: pointer;
+  background: -moz-linear-gradient(45deg, #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+  border-radius: 3px 3px 3px 3px;
+  padding: 5px;
+  text-decoration: none;
+  color: red;
+  font-weight: bold;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
+  display: inline-block;
+}

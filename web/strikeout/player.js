@@ -13,6 +13,15 @@ player = (function(){
 				});
 			},
 
+			getAllGames: function(){
+				return $.ajax({
+					url: 'http://localhost:3000/game/'+fbAPI.getUserId()+'/all',
+					type: 'GET',
+					dataType: "jsonp",
+			        cache: false
+				});
+			},
+
 			createPlayer: function(){
 				$.when(
 					fbAPI.getUserInfo()
@@ -27,12 +36,11 @@ player = (function(){
 					};
 
 					$.ajax({
-						url: 'http://localhost:3000/user/'+fbAPI.getUserId(),
+						url: '/strikeout/user/'+fbAPI.getUserId(),
 						data: data,
 						type: 'POST',
 						dataType: 'json',
-				        cache: false,
-						success: function(res){
+				        success: function(res){
 							console.log(res);
 						},
 						error: function(e,r,t){
@@ -40,7 +48,21 @@ player = (function(){
 						}
 					});
 				});
-			}
+			},
+
+			createGame: function(oppId){
+				var data = {
+					player1 : fbAPI.getUserId(),
+					player2 : oppId
+				}
+				return $.ajax({
+					url: '/strikeout/game/'+fbAPI.getUserId(),
+					data: data,
+					type: 'POST',
+					dataType: 'json',
+			        cache: false
+				});
+			},
 		},
 
 		View:{
@@ -57,6 +79,39 @@ player = (function(){
 					}
 					userData.pic = pic;
 					$('div.player').html($('script.player').tmpl(userData));
+				});
+
+				$.when(
+					player.Model.getAllGames(),
+					fbAPI.getUserFriends()
+				).done(function(data, friends){
+					var gameData = data[0];
+					var player = [];
+					var cur_game = {};
+
+					for(var i=0; i<gameData.length; i++){
+						player[i] = {};
+						if(gameData[i].player1 !== fbAPI.getUserId())
+						{
+							player[i].id = gameData[i].player1;
+						}
+						else if(gameData[i].player2 !== fbAPI.getUserId())
+						{
+							player[i].id = gameData[i].player2;
+						}
+					}
+
+					for(var i=0; i<player.length; i++){
+						for(var j=0; j<friends.data.length; j++){
+							if(friends.data[j].id === player[i].id){
+								player[i].pic = friends.data[j].picture;
+								player[i].name = friends.data[j].name;
+								break;
+							}
+						}
+					}
+					cur_game.player = player;
+					$('div.current_games').html($('script.current_games').tmpl(cur_game));
 				});
 			}
 		},
@@ -110,6 +165,14 @@ player = (function(){
 					});
 				});
 
+				$('div.friendsList_page').on('click', 'li', function(e){
+					var id = $(this).data('id');
+					$.when(
+						player.Model.createGame(id)
+					).done(function(res){
+						window.open('strikeout.html','_self');
+					});
+				});
 
 			}
 		}

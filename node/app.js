@@ -30,11 +30,15 @@ app.configure(function () {
     app.use(app.router);
 });
 
- 
+
 var userService = require('./service/user');
 app.get('/user/:id', userService.get);
 app.post('/user/:id', userService.save);
 
+var gameService = require('./service/game');
+app.get('/game/:id', gameService.get);
+app.get('/game/:id/all', gameService.getAll);
+app.post('/game/:id', gameService.save);
 
 process.addListener("uncaughtException", function (err) {
 	util.log("Uncaught exception: " + err);

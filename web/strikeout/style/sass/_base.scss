@@ -1,0 +1,54 @@
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+//@import "compass/utilities/color";
+@import "compass/typography/text/replacement";
+@import "compass/layout/sticky-footer";
+
+
+// Variables
+
+$green: #97bc56;
+$darkGreen: #4a7628;
+$links: #29447E;
+$grnBevDark: #81b93e;
+$grnBevLite: #bfde9a;
+//$gray: #f2f2f2;
+$gray: #f6f6f6;
+$grayDark: #eaeaea;
+$grayLite: #f8f8f8;
+$link: #2951a4;
+$hover: #eceff5;
+
+
+$newGreen: #30b545;
+$newDarkGreen: #20792E;
+$purple: #7354bd;
+$blue: #3d87cf;
+$lightBlue: lighten($blue, 45%);
+$darkBlue: darken($blue, 20%);
+$orange: #f57d21;
+$magenta: #f01978;
+$red: #e51414;
+$white: #ffffff;
+$newGray: #333333;
+$lightGray: #f1f1f1;
+$black: #000000;
+
+
+.floatLeft{
+	float: left;
+}
+
+.floatRight{
+	float: right;
+}
+
+body
+{
+	background	: -moz-radial-gradient(center center 45deg, circle farthest-side, #1EB1D8 0%, #1C6AA1 40%, #1B345E 100%) repeat scroll 0 0 transparent;
+	border		: 1px solid black;
+	display		: block;
+	height		: 1280px;
+	margin		: 0 auto;
+	width		: 720px;
+}

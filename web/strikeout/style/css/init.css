@@ -1,0 +1,85 @@
+/* line 38, /Users/shamik/git/tuoekirts/web/strikeout/style/sass/_base.scss */
+.floatLeft {
+  float: left;
+}
+
+/* line 42, /Users/shamik/git/tuoekirts/web/strikeout/style/sass/_base.scss */
+.floatRight {
+  float: right;
+}
+
+/* line 47, /Users/shamik/git/tuoekirts/web/strikeout/style/sass/_base.scss */
+body {
+  background: -moz-radial-gradient(center center 45deg, circle farthest-side, #1eb1d8 0%, #1c6aa1 40%, #1b345e 100%) repeat scroll 0 0 transparent;
+  border: 1px solid black;
+  display: block;
+  height: 1280px;
+  margin: 0 auto;
+  width: 720px;
+}
+
+/* line 3, ../sass/init.scss */
+.st-fbButton {
+  background-color: #5F78AB;
+  border-bottom: 1px solid #1A356E;
+  border-radius: 1px 1px 1px 1px;
+  border-top: 1px solid #879AC0;
+  color: white;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 11px;
+  font-weight: bold;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 3px 7px;
+  cursor: pointer;
+  display: block;
+  width: 110px;
+}
+
+/* line 21, ../sass/init.scss */
+.st-loginBox {
+  background-color: white;
+  height: 1280px;
+  opacity: 0.7;
+  top: 0;
+  width: 720px;
+  display: none;
+  position: absolute;
+}
+
+/* line 31, ../sass/init.scss */
+.st-fbConnect {
+  background-color: gray;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  border: 4px solid;
+  border-radius: 4px;
+  opacity: 1;
+  padding: 8px 8px 0;
+  width: 250px;
+  margin: 100px auto;
+}
+/* line 42, ../sass/init.scss */
+.st-fbConnect .header .label {
+  margin: 0 auto;
+  width: 190px;
+}
+/* line 48, ../sass/init.scss */
+.st-fbConnect .button {
+  background: -moz-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  border: 1px solid;
+  margin: 10px auto;
+  text-align: center;
+  width: 50px;
+  cursor: pointer;
+}
+/* line 58, ../sass/init.scss */
+.st-fbConnect .button:active {
+  box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0.5);
+}
+/* line 62, ../sass/init.scss */
+.st-fbConnect .button:hover {
+  background: -moz-linear-gradient(top, #a1dbff 0%, #cbebff 53%, #f0f9ff 100%);
+}

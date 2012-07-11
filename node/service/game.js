@@ -1,29 +1,40 @@
 var mongoose = require('mongoose');
-var UserModel = require('../data/model/Game.js');
+var GameModel = require('../data/model/Game.js');
 
 exports.get = function(req, res) {
 	var query = {
-		fbid : req.params.id
+		player1 : req.params.playerId,
+		player2 : req.params.oppId,
+		status : 0
 	};
-	UserModel.find(query, function(err, doc) {
+	GameModel.find(query, function(err, doc) {
 		res.json(doc);
 	});
 };
 
-
 exports.save = function(req, res) {
-	new UserModel({
-		alias : req.body.alias,
-		fbid : req.body.fbid,
-		fbprofile : req.body.fbprofile,
-		wins : req.body.wins,
-		loss: req.body.loss,
-		rating: req.body.rating
+	new GameModel({
+		player1 : req.body.player1,
+		player2 : req.body.player2,
+		boardType : req.body.boardType,
+		board : req.body.board
+//		status: req.body.status,
+//		date : req.body.date
 	}).save(function(err) {
 		if (!err) {
-			res.json([ 'OK' ]);
+			res.json(['OK']);
 		} else {
-			res.json([ 'BAD' ]);
+			res.json(['BAD']);
 		}
 	});
+}
+
+exports.getAll = function(req, res) {
+	var query = {
+		status : "start"
+	};
+
+	GameModel.find(query, function(err, doc){
+		res.json(doc);
+	}).or([{player1 : req.params.id},{player2 : req.params.id}]);
 }
