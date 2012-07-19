@@ -31,7 +31,7 @@ var _scene;
 // entrypoint
 strikeout.start = function(lines, playerId, gameId){
 
-	var director = new lime.Director(document.body,1024,768);
+	var director = new lime.Director(document.body,1280,768);
     strikeout.director = director;
 
 	_scene = new lime.Scene();
@@ -39,7 +39,7 @@ strikeout.start = function(lines, playerId, gameId){
 	 // label for score message
     _playerLbl = new lime.Label().setFontFamily('Trebuchet MS').setFontColor('#fffff').setFontSize(48).
         setPosition(375, 600).setText('Player: ' + _playerNumber);
-    
+
     _button = new makeButton('STRIKEOUT').setPosition(375, 700);
     goog.events.listen(_button, ['mousedown', 'touchstart'], goHandler_);
     drawBoard();
@@ -49,7 +49,7 @@ strikeout.start = function(lines, playerId, gameId){
     director.makeMobileWebAppCapable();
 
 // set current scene active
-    director.replaceScene(_scene);    
+    director.replaceScene(_scene);
 };
 
 drawBoard = function() {
@@ -81,6 +81,7 @@ drawBoard = function() {
             allGems.push(gem);
         }
     }
+
     _layer.appendChild(back);
 
     // Draw path, pass in a selectHandler which get's call once the line is drawn.
@@ -90,60 +91,59 @@ drawBoard = function() {
 
     	// Reset the previously selected gems.
     	for (var j = 0; j < allGems.length; j++) {
-    		
+
     		if (allGems[j].deleted_) {
     			continue;
     		}
-    		
+
     		if (allGems[j].selected_) {
     			allGems[j].deselect();
     		}
     	}
     	_selected = new Array();
-    	
+
     	// get the line.
     	var line = new goog.math.Line(touch.screenPos.x, touch.screenPos.y, e.screenPosition.x, e.screenPosition.y);
-    	 
+
     	// Back fill points along the line.
     	var distance = line.getSegmentLength();
     	var numOfSeg = distance / distanceSeg;
     	numOfSeg = (numOfSeg < 1)? 1 : numOfSeg;
-    	
+
     	for (var i = 0; i <= numOfSeg; i++) {
-    		
+
     		var t = i / numOfSeg;
     		var cord = line.getInterpolatedPoint(t);
-    		
+
     		// Loop through all gems and see if the cord is on the line.
     		for (var j = 0; j < allGems.length; j++) {
-    			
+
     			if (allGems[j].deleted_ || allGems[j].selected_) {
     				continue;
     			}
-    			
+
     			if (allGems[j].hitTest({screenPosition: cord})) {
     				pressHandler_({target: allGems[j]});
     			}
     		}
-    		
+
     	}
-    	
+
     });
 }
 
 getIndexByElement = function (array , element) {
-	 for (var i=0; i<array.length;i++ ) { 
+	 for (var i=0; i<array.length;i++ ) {
 		 if(array[i]===element)
 			 return i;
-	 } 
+	 }
 }
 
 goHandler_ = function(e) {
 	var turn = {};
 	var gemCount = 0;
 	turn.removeList = [];
-	
-	
+
 	for (var r = 0; r<_gems.length; r++) {
 		for (var c = 0; c<=r; c++ ) {
 			gemCount++;
@@ -159,17 +159,29 @@ goHandler_ = function(e) {
 			}
 		}
 	}
+
+	var data = {
+		number : _turnNumber,
+		removeList : turn.removeList,
+		gameId : game.Model.get()._id,
+		playerId : fbAPI.getUserId()
+	};
+	console.log(data);
+	saveTurn(data);
+
 	_selected = new Array();
 	turn.number = _turnNumber++;
 	if (gemCount == 1) {
 		_scene.removeChild(_button);
 		_playerLbl.setText('Player: ' +  _playerNumber + " Victory!!!");
-		
+
 	} else {
 		_playerNumber = _turnNumber%2 + 1;
 		_playerLbl.setText('Player: ' +  _playerNumber );
 	}
-	
+
+	console.log(turn);
+	console.log(gemCount);
 }
 
 makeButton = function(text) {
@@ -184,7 +196,7 @@ moveHandler_ = function(e){
 
 
 pressHandler_ = function(e) {
-	// console.log(e.target.getPosition());	
+	// console.log(e.target.getPosition());
 	var gem = e.target;
 	if (gem.selected_) {
 		if (_selected.length==3) {
@@ -199,9 +211,9 @@ pressHandler_ = function(e) {
 		if (_selected.length>=3) {
 			return;
 		}
-		
+
 		if (_selected.length > 0) {
-			var x_distance = Math.abs(gem.position_.x - _selected[_selected.length-1].position_.x); 
+			var x_distance = Math.abs(gem.position_.x - _selected[_selected.length-1].position_.x);
 			var y_distance = Math.abs(gem.position_.y - _selected[_selected.length-1].position_.y);
 			if (x_distance >= 150 && y_distance ===0 || x_distance >= 120 && y_distance >0 || y_distance >= 150) {
 				return;
@@ -209,7 +221,7 @@ pressHandler_ = function(e) {
 		}
 		var prevSlope = -1;
 		for (var i = 0; i<_selected.length; i++) {
-			x_distance = gem.position_.x - _selected[i].position_.x; 
+			x_distance = gem.position_.x - _selected[i].position_.x;
 			slope = (gem.position_.y - _selected[i].position_.y) / x_distance ;
 			if (prevSlope !== -1  && prevSlope !== slope) {
 				return;
@@ -223,10 +235,10 @@ pressHandler_ = function(e) {
 };
 
 removeByElement = function (array , element) {
-	 for (var i=0; i<array.length;i++ ) { 
+	 for (var i=0; i<array.length;i++ ) {
 		 if(array[i]===element)
-			 array.splice(i,1); 
-	 } 
+			 array.splice(i,1);
+	 }
 }
 
 sortFn = function(a, b) {
@@ -239,6 +251,33 @@ unPressHandler_ = function(e){
 	console.log(e.target.getPosition());
 };
 
+setGame = function(){
+
+};
+
+saveTurn = function(data){
+	turn.Model.save(data);
+};
+
+displayCurrentTurn = function(resp){
+	res =resp[resp.length-1];
+
+	for(var i=0; i<res.removeList.length; i++)
+	{
+		var obj = res.removeList[i];
+		_gems[obj[0]][obj[1]].selected_ = true;
+	}
+
+	for (var r = 0; r<_gems.length; r++) {
+		for (var c = 0; c<=r; c++ ) {
+			if (_gems[r][c].selected_) {
+				_gems[r][c].deleted_ = true;
+				var fade = new lime.animation.FadeTo(0).setDuration(1);
+				_gems[r][c].runAction(fade);
+			}
+		}
+	}
+};
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode
 goog.exportSymbol('strikeout', strikeout);

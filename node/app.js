@@ -40,6 +40,10 @@ app.get('/game/:id', gameService.get);
 app.get('/game/:id/all', gameService.getAll);
 app.post('/game/:id', gameService.save);
 
+var turnService = require('./service/turn');
+app.get('/turn/:gid', turnService.getByGame);
+app.post('/turn/:id', turnService.save);
+
 process.addListener("uncaughtException", function (err) {
 	util.log("Uncaught exception: " + err);
 	util.log(err.stack);

@@ -10,5 +10,5 @@ var turnSchema = new Schema({
 	date:   	{ type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Trun', turnSchema);
+module.exports = mongoose.model('Turn', turnSchema);
 

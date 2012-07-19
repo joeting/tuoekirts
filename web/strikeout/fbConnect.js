@@ -43,7 +43,7 @@ fbConnect = (function(){
 				});
 
 				$('.st-fbButton').on('click', function(e){
-					var rediectUrl= "http://10.111.2.240:9012/ts/web/init.html";
+					var rediectUrl= "http://192.168.0.109:9012/ts/web/init.html";
 //					var perms = "user_groups, publish_stream, email, offline_access, user_about_me, user_work_history, user_location, friends_location, user_hometown, friends_games_activity, friends_hometown, read_friendlists";
 					var perms = "";
 					var	url = '//graph.facebook.com/oauth/authorize?client_id=' +

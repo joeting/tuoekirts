@@ -6,21 +6,50 @@
 
 	<script type="text/javascript" src="closure/closure/goog/base.js"></script>
 	<script type="text/javascript" src="strikeout/deps.js"></script>
-	
-	
+	<script type="text/javascript" src="strikeout/fbConnect.js"></script>
+	<script type="text/javascript" src="strikeout/fbAPI.js"></script>
+	<script type="text/javascript" src="strikeout/turn.js"></script>
+	<script type="text/javascript" src="strikeout/game.js"></script>
+	<script src="http://code.jquery.com/jquery-1.7.2.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script type="text/javascript" src="strikeout/lib/jquery.parsequery.js"></script>
+	<link href="strikeout/style/css/strikeout.css" type="text/css" rel="stylesheet"/>
+
 	<script>
       goog.require('strikeout');
     </script>
 
-	<style>
+	<!-- <style>
 	body {
 		background: #1c6aa1;
 		background:-webkit-gradient(radial, 50% 50%, 10, 50% 50%, 850, from(#1eb1d8), to(#1b345e), color-stop(.4,#1c6aa1));
 		background: -moz-radial-gradient(center 45deg, circle farthest-side, #1eb1d8 0%, #1c6aa1 40%, #1b345e 100%);
 	}
-	</style>
+	</style> -->
 </head>
 
-<body onload="strikeout.start(5)"></body>
+<body onload="" style="margin:0 auto; height:1280px">
+<div id="fb-root"></div>
+<script>
+	var query = $.parseQuery();
+
+	$.when(
+		fbConnect.Ctrl.init(),
+		game.Model.get(query.gid)
+	).done(function(res, gameData){
+		game.Model.set(gameData[0][0]);
+		strikeout.start(6);
+
+		if(query.newGame === "false"){
+			/* show loading sign */
+			$.when(
+				turn.Model.get()
+			).done(function(res){
+				displayCurrentTurn(res);
+			});
+		}
+	});
+</script>
+</body>
 
 </html>

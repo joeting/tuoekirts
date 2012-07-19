@@ -3,9 +3,7 @@ var GameModel = require('../data/model/Game.js');
 
 exports.get = function(req, res) {
 	var query = {
-		player1 : req.params.playerId,
-		player2 : req.params.oppId,
-		status : 0
+		_id : req.params.id,
 	};
 	GameModel.find(query, function(err, doc) {
 		res.json(doc);
@@ -20,9 +18,9 @@ exports.save = function(req, res) {
 		board : req.body.board
 //		status: req.body.status,
 //		date : req.body.date
-	}).save(function(err) {
+	}).save(function(err, doc) {
 		if (!err) {
-			res.json(['OK']);
+			res.json({'game': doc._id});
 		} else {
 			res.json(['BAD']);
 		}

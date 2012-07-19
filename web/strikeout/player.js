@@ -48,21 +48,7 @@ player = (function(){
 						}
 					});
 				});
-			},
-
-			createGame: function(oppId){
-				var data = {
-					player1 : fbAPI.getUserId(),
-					player2 : oppId
-				}
-				return $.ajax({
-					url: '/strikeout/game/'+fbAPI.getUserId(),
-					data: data,
-					type: 'POST',
-					dataType: 'json',
-			        cache: false
-				});
-			},
+			}
 		},
 
 		View:{
@@ -85,6 +71,7 @@ player = (function(){
 					player.Model.getAllGames(),
 					fbAPI.getUserFriends()
 				).done(function(data, friends){
+					console.log(data[0]);
 					var gameData = data[0];
 					var player = [];
 					var cur_game = {};
@@ -99,6 +86,7 @@ player = (function(){
 						{
 							player[i].id = gameData[i].player2;
 						}
+						player[i].gameId = gameData[i]._id;
 					}
 
 					for(var i=0; i<player.length; i++){
@@ -168,12 +156,16 @@ player = (function(){
 				$('div.friendsList_page').on('click', 'li', function(e){
 					var id = $(this).data('id');
 					$.when(
-						player.Model.createGame(id)
+						game.Model.create(id)
 					).done(function(res){
-						window.open('strikeout.html','_self');
+						window.open('strikeout.html?newGame=true&gid='+res.game,'_self');
 					});
 				});
 
+				$('div.current_games').on('click','.userImg img', function(e){
+					var obj = $(this);
+					window.open('strikeout.html?newGame=false&gid='+obj.data('gid'),'_self');
+				});
 			}
 		}
 	}

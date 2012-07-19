@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="strikeout/fbConnect.js"></script>
 		<script type="text/javascript" src="strikeout/fbAPI.js"></script>
 		<script type="text/javascript" src="strikeout/player.js"></script>
+		<script type="text/javascript" src="strikeout/game.js"></script>
 		<script src="http://code.jquery.com/jquery-1.7.2.js"></script>
 		<script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
@@ -14,21 +15,21 @@
 	</head>
 
 	<body>
-		<div style="overflow:hidden">
+		<div style="overflow:hidden; margin:10px">
 			<div id="fb-root"></div>
-			<div class ="player border_dist"></div>
+			<div class ="player"></div>
 			<div class ="player_options">
-				<div class ="connect_friends border_dist">
+				<div class ="connect_friends">
 					Challenge a Friend
 				</div>
-				<div class="game border_dist">
+				<div class="game">
 					<a href="strikeout.html">Play</a>
 				</div>
-				<div class ="stats border_dist">
+				<div class ="stats">
 					Stats
 				</div>
+				<div class ="current_games"></div>
 			</div>
-			<div class ="current_games"></div>
 			<div class ="friendsList_page border_dist"></div>
 		</div>
 		<script>
@@ -67,13 +68,15 @@
 	</script>
 
 	<script class="current_games" type="text/x-jquery-tmpl">
-		<p>Current Games</p>
+		{{if player.length > 0}}
+			<p>Current Games</p>
+		{{/if}}
 		{{each player}}
 			<div class="name">
 				${name}
 			</div>
 			<div class = "userImg">
-				<img src="${pic}" />
+				<img src="${pic}" data-gid="${gameId}" data-pid="${id}"/>
 			</div>
 		{{/each}}
 	</script>

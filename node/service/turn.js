@@ -1,15 +1,15 @@
 var mongoose = require('mongoose');
 var TurnModel = require('../data/model/Turn.js');
 
-exports.get = function(req, res) {
+exports.getByGame = function(req, res) {
 	var query = {
-		fbid : req.params.id
+		gameId : req.params.gid
 	};
+
 	TurnModel.find(query, function(err, doc) {
 		res.json(doc);
 	});
 };
-
 
 exports.save = function(req, res) {
 	new TurnModel({
@@ -24,4 +24,4 @@ exports.save = function(req, res) {
 			res.json([ 'BAD' ]);
 		}
 	});
-}
+};
