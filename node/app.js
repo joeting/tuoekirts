@@ -36,9 +36,10 @@ app.get('/user/:id', userService.get);
 app.post('/user/:id', userService.save);
 
 var gameService = require('./service/game');
-app.get('/game/:id', gameService.get);
-app.get('/game/:id/all', gameService.getAll);
-app.post('/game/:id', gameService.save);
+app.get('/game/:id', gameService.get);			//gameid
+app.get('/game/:id/all', gameService.getAll);	//userId
+app.post('/game/:id', gameService.save);		//gameId
+app.put('/game/:id', gameService.update);		//userId
 
 var turnService = require('./service/turn');
 app.get('/turn/:gid', turnService.getByGame);

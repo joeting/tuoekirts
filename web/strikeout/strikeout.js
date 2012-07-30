@@ -166,22 +166,11 @@ goHandler_ = function(e) {
 		gameId : game.Model.get()._id,
 		playerId : fbAPI.getUserId()
 	};
-	console.log(data);
 	saveTurn(data);
 
 	_selected = new Array();
 	turn.number = _turnNumber++;
-	if (gemCount == 1) {
-		_scene.removeChild(_button);
-		_playerLbl.setText('Player: ' +  _playerNumber + " Victory!!!");
-
-	} else {
-		_playerNumber = _turnNumber%2 + 1;
-		_playerLbl.setText('Player: ' +  _playerNumber );
-	}
-
-	console.log(turn);
-	console.log(gemCount);
+	victoryCheck(gemCount);
 }
 
 makeButton = function(text) {
@@ -255,12 +244,24 @@ setGame = function(){
 
 };
 
+endGame = function(){
+	game.Model.end(query.gid);
+}
+
 saveTurn = function(data){
 	turn.Model.save(data);
 };
 
 displayCurrentTurn = function(resp){
-	res =resp[resp.length-1];
+	var res = {
+		removeList : []
+	};
+	var gemCount = 0;
+
+	if(resp.length>0)
+	{
+		res =resp[resp.length-1];
+	}
 
 	for(var i=0; i<res.removeList.length; i++)
 	{
@@ -270,12 +271,27 @@ displayCurrentTurn = function(resp){
 
 	for (var r = 0; r<_gems.length; r++) {
 		for (var c = 0; c<=r; c++ ) {
+			gemCount++;
 			if (_gems[r][c].selected_) {
 				_gems[r][c].deleted_ = true;
 				var fade = new lime.animation.FadeTo(0).setDuration(1);
 				_gems[r][c].runAction(fade);
+				gemCount--;
 			}
 		}
+	}
+
+	victoryCheck(gemCount);
+};
+
+victoryCheck = function(gemCount){
+	if (gemCount == 1) {
+		_scene.removeChild(_button);
+		_playerLbl.setText('Player: ' +  _playerNumber + " Victory!!!");
+		endGame();
+	} else {
+		_playerNumber = _turnNumber%2 + 1;
+		_playerLbl.setText('Player: ' +  _playerNumber );
 	}
 };
 

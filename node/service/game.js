@@ -10,6 +10,24 @@ exports.get = function(req, res) {
 	});
 };
 
+exports.update = function(req, res) {
+	GameModel.findById(req.params.id, function(err, doc) {
+		console.log(doc);
+		console.log("*************");
+		doc.status = "end";
+		doc.save(function(err, prod){
+			console.log(err);
+			console.log("*************");
+			console.log(prod);
+			if(!err){
+				res.json({'game': doc._id});
+			}else {
+				res.json(['BAD']);
+			}
+		});
+	});
+};
+
 exports.save = function(req, res) {
 	new GameModel({
 		player1 : req.body.player1,

@@ -8,7 +8,7 @@ game = (function(){
 				var data = {
 					player1 : fbAPI.getUserId(),
 					player2 : oppId
-				}
+				};
 				return $.ajax({
 					url: '/strikeout/game/'+fbAPI.getUserId(),
 					data: data,
@@ -36,6 +36,15 @@ game = (function(){
 
 			set: function(obj){
 				_gameObj = obj;
+			},
+
+			end: function(gameId){
+				return $.ajax({
+					url: '/strikeout/game/'+gameId,
+					type: 'PUT',
+					dataType: 'json',
+			        cache: false
+				});
 			}
 		},
 
