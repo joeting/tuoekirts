@@ -6,7 +6,7 @@ player = (function(){
 		Model:{
 			getPlayer: function(){
 				return $.ajax({
-					url: 'http://localhost:3000/user/'+fbAPI.getUserId(),
+					url: 'http://192.168.0.105:3000/user/'+fbAPI.getUserId(),
 					type: 'GET',
 					dataType: "jsonp",
 			        cache: false
@@ -15,38 +15,28 @@ player = (function(){
 
 			getAllGames: function(){
 				return $.ajax({
-					url: 'http://localhost:3000/game/'+fbAPI.getUserId()+'/all',
+					url: 'http://192.168.0.105:3000/game/'+fbAPI.getUserId()+'/all',
 					type: 'GET',
 					dataType: "jsonp",
 			        cache: false
 				});
 			},
 
-			createPlayer: function(){
-				$.when(
-					fbAPI.getUserInfo()
-				).done(function(fbData){
-					var data={
-						alias : fbAPI.getUserId(),
-						fbid : fbAPI.getUserId(),
-						fbprofile : fbData,
-						wins : 0,
-						loss : 0,
-						rating : 0
-					};
+			createPlayer: function(fbData){
+				var data={
+					alias : fbAPI.getUserId(),
+					fbid : fbAPI.getUserId(),
+					fbprofile : fbData,
+					wins : 0,
+					loss : 0,
+					rating : 0
+				};
 
-					$.ajax({
-						url: '/strikeout/user/'+fbAPI.getUserId(),
-						data: data,
-						type: 'POST',
-						dataType: 'json',
-				        success: function(res){
-							console.log(res);
-						},
-						error: function(e,r,t){
-							console.log(e);
-						}
-					});
+				return $.ajax({
+					url: '/strikeout/user/'+fbAPI.getUserId(),
+					data: data,
+					type: 'POST',
+					dataType: 'json'
 				});
 			}
 		},
@@ -59,10 +49,10 @@ player = (function(){
 					fbAPI.getUserPic(),
 					player.Model.getPlayer()
 				).done(function(userData, pic, playerData){
-					if(playerData[0].length === 0)
-					{
-						player.Model.createPlayer();
-					}
+//					if(playerData[0].length === 0)
+//					{
+//						player.Model.createPlayer();
+//					}
 					userData.pic = pic;
 					$('div.player').html($('script.player').tmpl(userData));
 				});
@@ -71,7 +61,7 @@ player = (function(){
 					player.Model.getAllGames(),
 					fbAPI.getUserFriends()
 				).done(function(data, friends){
-					console.log(data[0]);
+
 					var gameData = data[0];
 					var player = [];
 					var cur_game = {};

@@ -5,6 +5,7 @@
 	<title>strikeout</title>
 	<script type="text/javascript" src="strikeout/fbConnect.js"></script>
 	<script type="text/javascript" src="strikeout/fbAPI.js"></script>
+	<script type="text/javascript" src="strikeout/player.js"></script>
 	<link href="strikeout/style/css/init.css" type="text/css" rel="stylesheet"/>
 </head>
 
@@ -26,7 +27,23 @@
 			fbConnect.Ctrl.load()
 		).done(function(res){
 			if(res.authResponse){
-				window.open('player.htm', '_self');
+				$.when(
+					fbAPI.getUserInfo(),
+					player.Model.getPlayer()
+				).done(function(fbData, playerData){
+					if(!playerData[0])
+					{
+						$.when(
+							player.Model.createPlayer(fbData)
+						).done(function(){
+							window.open('player.htm', '_self');
+						});
+					}
+					else
+					{
+						window.open('player.htm', '_self');
+					}
+				});
 			}
 			else{
 				$('.st-loginBox').fadeIn();

@@ -38,9 +38,11 @@ strikeout.start = function(lines, playerId, gameId){
 	_gems = new Array(lines);
 	 // label for score message
     _playerLbl = new lime.Label().setFontFamily('Trebuchet MS').setFontColor('#fffff').setFontSize(48).
-        setPosition(375, 600).setText('Player: ' + _playerNumber);
+    	setPosition(375, 600).setText('Player: ' + _playerNumber);
 
     _button = new makeButton('STRIKEOUT').setPosition(375, 700);
+    hideObj(_button, true);
+
     goog.events.listen(_button, ['mousedown', 'touchstart'], goHandler_);
     drawBoard();
     _scene.appendChild(_playerLbl);
@@ -140,6 +142,8 @@ getIndexByElement = function (array , element) {
 }
 
 goHandler_ = function(e) {
+	hideObj(_button, true);
+
 	var turn = {};
 	var gemCount = 0;
 	turn.removeList = [];
@@ -166,6 +170,7 @@ goHandler_ = function(e) {
 		gameId : game.Model.get()._id,
 		playerId : fbAPI.getUserId()
 	};
+
 	saveTurn(data);
 
 	_selected = new Array();
@@ -228,11 +233,11 @@ removeByElement = function (array , element) {
 		 if(array[i]===element)
 			 array.splice(i,1);
 	 }
-}
+};
 
 sortFn = function(a, b) {
 	return (a.position_.x - b.position_.x) + (a.position_.y - b.position_y);
-}
+};
 
 
 unPressHandler_ = function(e){
@@ -253,14 +258,23 @@ saveTurn = function(data){
 };
 
 displayCurrentTurn = function(resp){
-	var res = {
-		removeList : []
-	};
 	var gemCount = 0;
 
 	if(resp.length>0)
 	{
-		res =resp[resp.length-1];
+		var res =resp[resp.length-1];
+	}
+	else
+	{
+		var res = {
+			removeList : [],
+			playerId : game.Model.get().player2
+		};
+	}
+
+	if(res.playerId != fbAPI.getUserId())
+	{
+		hideObj(_button, false);
 	}
 
 	for(var i=0; i<res.removeList.length; i++)
@@ -293,6 +307,10 @@ victoryCheck = function(gemCount){
 		_playerNumber = _turnNumber%2 + 1;
 		_playerLbl.setText('Player: ' +  _playerNumber );
 	}
+};
+
+hideObj = function(button, val){
+	button.setHidden(val);
 };
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode

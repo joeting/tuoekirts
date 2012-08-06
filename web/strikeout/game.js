@@ -26,7 +26,7 @@ game = (function(){
 				else
 				{
 					return $.ajax({
-						url: 'http://localhost:3000/game/'+gameId,
+						url: 'http://192.168.0.105:3000/game/'+gameId,
 						type: 'GET',
 						dataType: 'jsonp',
 				        cache: false
@@ -39,8 +39,15 @@ game = (function(){
 			},
 
 			end: function(gameId){
+				var data = {
+					status : 'end',
+					winner : fbAPI.getUserId(),
+					loser : _gameObj.player1 == fbAPI.getUserId() ? _gameObj.player2 : _gameObj.player1
+				};
+
 				return $.ajax({
 					url: '/strikeout/game/'+gameId,
+					data: data,
 					type: 'PUT',
 					dataType: 'json',
 			        cache: false

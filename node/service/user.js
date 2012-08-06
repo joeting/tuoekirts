@@ -5,7 +5,7 @@ exports.get = function(req, res) {
 	var query = {
 		fbid : req.params.id
 	};
-	UserModel.find(query, function(err, doc) {
+	UserModel.findOne(query, function(err, doc) {
 		res.json(doc);
 	});
 };

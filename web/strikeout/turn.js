@@ -21,7 +21,7 @@ turn = (function(){
 				var data = $.parseQuery();
 
 				return $.ajax({
-					url: 'http://localhost:3000/turn/'+data.gid,
+					url: 'http://192.168.0.105:3000/turn/'+data.gid,
 					data: data,
 					type: 'GET',
 					dataType: 'jsonp',

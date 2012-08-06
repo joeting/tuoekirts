@@ -12,13 +12,10 @@ exports.get = function(req, res) {
 
 exports.update = function(req, res) {
 	GameModel.findById(req.params.id, function(err, doc) {
-		console.log(doc);
-		console.log("*************");
-		doc.status = "end";
+		doc.status = req.body.status;
+		doc.winner = req.body.winner;
+		doc.loser = req.body.loser;
 		doc.save(function(err, prod){
-			console.log(err);
-			console.log("*************");
-			console.log(prod);
 			if(!err){
 				res.json({'game': doc._id});
 			}else {
