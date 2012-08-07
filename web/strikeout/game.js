@@ -26,7 +26,7 @@ game = (function(){
 				else
 				{
 					return $.ajax({
-						url: 'http://192.168.0.105:3000/game/'+gameId,
+						url: 'http://'+config.ip+':3000/game/'+gameId,
 						type: 'GET',
 						dataType: 'jsonp',
 				        cache: false

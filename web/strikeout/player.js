@@ -6,7 +6,7 @@ player = (function(){
 		Model:{
 			getPlayer: function(){
 				return $.ajax({
-					url: 'http://192.168.0.105:3000/user/'+fbAPI.getUserId(),
+					url: 'http://'+config.ip+':3000/user/'+fbAPI.getUserId(),
 					type: 'GET',
 					dataType: "jsonp",
 			        cache: false
@@ -15,7 +15,7 @@ player = (function(){
 
 			getAllGames: function(){
 				return $.ajax({
-					url: 'http://192.168.0.105:3000/game/'+fbAPI.getUserId()+'/all',
+					url: 'http://'+config.ip+':3000/game/'+fbAPI.getUserId()+'/all',
 					type: 'GET',
 					dataType: "jsonp",
 			        cache: false

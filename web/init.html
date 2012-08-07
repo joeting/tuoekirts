@@ -3,6 +3,7 @@
 <html>
 <head>
 	<title>strikeout</title>
+	<script type="text/javascript" src="strikeout/config.js"></script>
 	<script type="text/javascript" src="strikeout/fbConnect.js"></script>
 	<script type="text/javascript" src="strikeout/fbAPI.js"></script>
 	<script type="text/javascript" src="strikeout/player.js"></script>
@@ -26,6 +27,7 @@
 			fbConnect.Ctrl.init(),
 			fbConnect.Ctrl.load()
 		).done(function(res){
+			console.log(res);
 			if(res.authResponse){
 				$.when(
 					fbAPI.getUserInfo(),
